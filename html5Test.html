@@ -42,22 +42,22 @@
       //将视频流设置为video元素的源
       //console.log(stream);
 	
-      //video.src = CompatibleURL.createObjectURL(stream);
-      video.srcObject = stream;
+      video.src = CompatibleURL.createObjectURL(stream);
+      //video.srcObject = stream;
       video.play();
     }
 
     function error(error) {
-      console.log(`访问用户媒体设备失败${error.name}, ${error.message}`);
+        alert("访问用户媒体设备失败：",error.name,error.message);
     }
 	
 	if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
 			//调用用户媒体设备, 访问摄像头 ；facingMode: { 'facingMode': "user" }(前置摄像头)、{ facingMode: { exact: "environment" } }后置摄像头：
 			//getUserMedia({video : {width: 480, height: 320}}, success, error);
-		        var constraints = { audio: true, video: { width: 480, height: 320 } }; 
+		        var constraints = { audio: true, video: { width: 480, height: 320 ,facingMode: { exact: "environment" }
 			getUserMedia(constraints, success, error);
 	} else {
-			alert('不支持访问用户媒体');
+			alert('你的浏览器不支持访问用户媒体设备');
 	}
 	
     document.getElementById('capture').addEventListener('click', function () {
