@@ -12,6 +12,7 @@
   </video>
   <div>
     <button id="capture">拍照</button>
+    <p id="showMessInfoID">流媒体消息内容</p>
   </div>
   <canvas id="canvas" width="480" height="320"></canvas>
   <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
@@ -45,8 +46,8 @@
       let CompatibleURL = window.URL || window.webkitURL;
       //将视频流设置为video元素的源
       //console.log(stream);
-	
-      video.src = CompatibleURL.createObjectURL(stream);
+      document.getElementById("showMessInfoID").innerHTML= stream;	
+      //video.src = CompatibleURL.createObjectURL(stream);
       video.srcObject = stream;
       video.play();
     }
