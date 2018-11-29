@@ -44,12 +44,22 @@
 
     function success(stream) {
       //兼容webkit核心浏览器
-      let CompatibleURL = window.URL || window.webkitURL;
+      let compatibleURL = window.URL || window.webkitURL;
       //将视频流设置为video元素的源
       //console.log(stream);
-      document.getElementById("showMessInfoID").innerHTML= stream;	
+      //document.getElementById("showMessInfoID").innerHTML= stream;	
       //video.src = CompatibleURL.createObjectURL(stream);
-      video.srcObject = stream;
+      //video.srcObject = stream;
+      //video.play();
+
+     document.getElementById("showMessInfoID").innerHTML= stream;
+     // 旧的浏览器可能没有srcObject
+     if ("srcObject" in video) {
+	     video.srcObject = stream;
+     } else {
+	     // 防止再新的浏览器里使用它，应为它已经不再支持了
+	    video.src = compatibleURL.createObjectURL(stream);
+     }	  
       video.play();
     }
 
