@@ -5,67 +5,124 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>摄像头拍照和获取经纬度</title>
- 
 </head>
 <body>
-<div id="container">
 
-    <video id="gum-local" autoplay playsinline></video>
-    <button id="showVideo">Open camera</button>
-
-    <div id="errorMsg"></div>
-
-</div>
-  
-  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <video id="video" width="480" height="320">
+  </video>
+  <div>
+    <button id="capture">拍照</button>
+    <p id="showErrorMessInfoID"></p>
+  </div>
+  <canvas id="canvas" width="480" height="320"></canvas>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>	
   <script>
-    // Put variables in global scope to make them available to the browser console.
-	const constraints = window.constraints = {
-	  audio: false,
-	  video: true
-	};
+    	  
+    //访问用户媒体设备的兼容方法
+    function getUserMedia(constraints, success, error) {
+      if (navigator.mediaDevices.getUserMedia) {
+        //最新的标准API
+        await navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+      } else if (navigator.webkitGetUserMedia) {
+        //webkit核心浏览器
+        navigator.webkitGetUserMedia(constraints,success, error)
+      } else if (navigator.mozGetUserMedia) {
+        //firfox浏览器
+        navigator.mozGetUserMedia(constraints, success, error);
+      } else if (navigator.getUserMedia) {
+        //旧版API
+        navigator.getUserMedia(constraints, success, error);
+      }
+    }
 
-	function handleSuccess(stream) {
-	  const video = document.querySelector('video');
-	  const videoTracks = stream.getVideoTracks();
-	  console.log('Got stream with constraints:', constraints);
-	  console.log(`Using video device: ${videoTracks[0].label}`);
-	  window.stream = stream; // make variable available to browser console
-	  video.srcObject = stream;
-	}
+    let video = document.getElementById('video');
+    let canvas = document.getElementById('canvas');
+    let context = canvas.getContext('2d');
 
-	function handleError(error) {
-	  if (error.name === 'ConstraintNotSatisfiedError') {
-		let v = constraints.video;
-		errorMsg(`The resolution ${v.width.exact}x${v.height.exact} px is not supported by your device.`);
-	  } else if (error.name === 'PermissionDeniedError') {
-		errorMsg('Permissions have not been granted to use your camera and ' +
-		  'microphone, you need to allow the page access to your devices in ' +
-		  'order for the demo to work.');
-	  }
-	  errorMsg(`getUserMedia error: ${error.name}`, error);
-	}
+    function success(stream) {
+      //兼容webkit核心浏览器
+      let compatibleURL = window.URL || window.webkitURL;
+      //将视频流设置为video元素的源
+      //console.log(stream);
+      //document.getElementById("showMessInfoID").innerHTML= stream;	
+      //video.src = CompatibleURL.createObjectURL(stream);
+      //video.srcObject = stream;
+      //video.play();
+	    
+     // 旧的浏览器可能没有srcObject
+     if ("srcObject" in video) {
+	     video.srcObject = stream;
+     } else {
+	     // 防止再新的浏览器里使用它，应为它已经不再支持了
+	    video.src = compatibleURL.createObjectURL(stream);
+     }	  
+      video.play();
+    }
 
-	function errorMsg(msg, error) {
-	  const errorElement = document.querySelector('#errorMsg');
-	  errorElement.innerHTML += `<p>${msg}</p>`;
-	  if (typeof error !== 'undefined') {
-		console.error(error);
-	  }
-	}
-
-	async function init(e) {
-	  try {
-		const stream = await navigator.mediaDevices.getUserMedia(constraints);
-		handleSuccess(stream);
-		e.target.disabled = true;
-	  } catch (e) {
-		handleError(e);
-	  }
-	}
-
-	document.querySelector('#showVideo').addEventListener('click', e => init(e));
+    function error(error) {
+      document.getElementById("showErrorMessInfoID").innerHTML= "访问用户媒体设备失败：" + error.name +", "+ error.message);
+    }
+	
+    if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
+	//调用用户媒体设备, 访问摄像头 ；facingMode: { 'facingMode': "user" }(前置摄像头)、{ facingMode: { exact: "environment" } }后置摄像头：
+	//getUserMedia({video : {width: 480, height: 320}}, success, error);
+	//var constraints = { audio: true, video: { width: 480, height: 320 ,facingMode: { exact: "environment" }}};
+	//var constraints = { video: true, audio: false };
+	//var constraints = { audio: true ,video : {width: 480, height: 320,facingMode: { 'facingMode': "user" }}};
+	var constraints = window.constraints = { video: {  width: 480, height: 320 ,facingMode: 'user' } , audio: false};
+	getUserMedia(constraints, success, error);
+   } else {
+	alert('你的浏览器不支持访问用户媒体设备');
+   }
+	
+    document.getElementById('capture').addEventListener('click', function () {
+            context.drawImage(video, 0, 0, 480, 320);      
+    })
   </script>
+
+  
+<p id="demo">点击这个按钮，获得您的坐标：</p>
+<button onclick="getLocation()">试一下</button>
+<!-- <div id="mapholder">地图图片</div>-->
+<script>
+    var x=document.getElementById("demo");
+    function getLocation(){
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition,showError);
+        }else{
+            x.innerHTML="此浏览器不支持地理位置.";
+        }
+    }
+	
+	function showError(error){ 
+		switch(error.code) { 
+			case error.PERMISSION_DENIED: 
+				x.innerHTML = "定位失败,用户拒绝请求地理定位"; 
+				break; 
+			case error.POSITION_UNAVAILABLE: 
+				x.innerHTML = "定位失败,位置信息是不可用"; 
+				break; 
+			case error.TIMEOUT: 
+				x.innerHTML = "定位失败,请求获取用户位置超时"; 
+				break; 
+			case error.UNKNOWN_ERROR: 
+				x.innerHTML = "定位失败,定位系统失效"; 
+				break; 
+		} 
+	}
+
+    function showPosition(position){
+	    //维度
+	    var latitude = position.coords.latitude;
+		//精度
+		var longitude = position.coords.longitude;
+		x.innerHTML="Latitude: " + latitude + "<br />Longitude: " + longitude;
+		
+		var latlon=latitude+","+longitude;
+		//var img_url="http://apis.map.qq.com/uri/v1/marker?marker=coord:"+latlon+";title:当前地点位置经纬度;addr:维度："+latitude+"<br>精度："+longitude+"&referer=myapp";
+		//document.getElementById("mapholder").innerHTML="<img src='"+img_url+"' />";
+    }
+ </script>
 
 
 </body>
