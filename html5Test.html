@@ -61,7 +61,7 @@
 		//getUserMedia({video : {width: 480, height: 320}}, success, error);
 		//var constraints = { audio: true, video: { width: 480, height: 320 ,facingMode: { exact: "environment" }}};
 		//var constraints = { video: true, audio: false };
-		var constraints = { audio: true ,video : {width: 480, height: 320}};
+		var constraints = { audio: true ,video : {width: 480, height: 320,facingMode: { 'facingMode': "user" }}};
 		getUserMedia(constraints, success, error);
 	} else {
 		alert('你的浏览器不支持访问用户媒体设备');
