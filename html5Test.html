@@ -73,14 +73,7 @@ function handleError(error) {
 <!-- <div id="mapholder">地图图片</div>-->
 <script>
     var x=document.getElementById("demo");
-	
-    document.getElementById('getLocation').addEventListener('click', function () {  
-        if (navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(showPosition,showError);
-        }else{
-            x.innerHTML="此浏览器不支持地理位置.";
-        }
-     })
+  
 	
 	function showError(error){ 
 		switch(error.code) { 
@@ -110,6 +103,14 @@ function handleError(error) {
 		//var img_url="http://apis.map.qq.com/uri/v1/marker?marker=coord:"+latlon+";title:当前地点位置经纬度;addr:维度："+latitude+"<br>精度："+longitude+"&referer=myapp";
 		//document.getElementById("mapholder").innerHTML="<img src='"+img_url+"' />";
     }
+	
+    document.querySelector('#getLocation').addEventListener('click', function () {  
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition,showError);
+        }else{
+            x.innerHTML="此浏览器不支持地理位置.";
+        }
+     })
 
 </body>
 </html>
