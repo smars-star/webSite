@@ -8,16 +8,21 @@
 </head>
 <body>
 
-  
-  <div id="container">
-    <video autoplay playsinline></video>
-  </div>
+    <video id="video" width="480" height="320" autoplay playsinline></video>
+
+<div>
+    <button id="capture">拍照</button>
+    <p id="showErrorMessInfoID"></p>
+ </div>
+<canvas id="canvas" width="480" height="320"></canvas>
 <script>
 	var constraints = {
          video: true
         };
 
 var video = document.querySelector('video');
+const canvas = document.getElementById('canvas');
+const context = canvas.getContext('2d');
 
 function handleSuccess(stream) {
   window.stream = stream; // only to make stream available to console
@@ -36,6 +41,10 @@ navigator.mediaDevices.getUserMedia(constraints).
 	}else{
 	 alert('你的浏览器不支持访问用户媒体设备');
 	}
+	
+	 document.getElementById('capture').addEventListener('click', function () {
+            context.drawImage(video, 0, 0, 480, 320);      
+    })
 	</script>
 
 
