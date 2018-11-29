@@ -50,7 +50,7 @@ function handleSuccess(stream) {
 }
 
 function handleError(error) {
-  document.getElementById("errorMsg").innerHTML = "访问用户媒体设备失败：" + error.name +", "+ error.message);
+  document.getElementById("errorMsg").innerHTML = "访问用户媒体设备失败：" + error);
 }
 
 	if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
