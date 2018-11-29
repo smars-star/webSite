@@ -14,7 +14,11 @@
     <button id="capture">拍照</button>
   </div>
   <canvas id="canvas" width="480" height="320"></canvas>
+  <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script>
+    
+    const adapter = require(‘webrtc-adapter’);
+	  
     //访问用户媒体设备的兼容方法
     function getUserMedia(constraints, success, error) {
       if (navigator.mediaDevices.getUserMedia) {
@@ -54,7 +58,8 @@
 	if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
 			//调用用户媒体设备, 访问摄像头 ；facingMode: { 'facingMode': "user" }(前置摄像头)、{ facingMode: { exact: "environment" } }后置摄像头：
 			//getUserMedia({video : {width: 480, height: 320}}, success, error);
-		        var constraints = { audio: true, video: { width: 480, height: 320 ,facingMode: { exact: "environment" }}};
+		        //var constraints = { audio: true, video: { width: 480, height: 320 ,facingMode: { exact: "environment" }}};
+		        var constraints = { video: true, audio: true };
 			getUserMedia(constraints, success, error);
 	} else {
 			alert('你的浏览器不支持访问用户媒体设备');
