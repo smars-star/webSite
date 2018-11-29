@@ -69,17 +69,18 @@ function handleError(error) {
 <hr>
 	
 <p id="demo">点击这个按钮，获得您的坐标：</p>
-<button onclick="getLocation()">试一下</button>
+<button id="getLocation">试一下</button>
 <!-- <div id="mapholder">地图图片</div>-->
 <script>
     var x=document.getElementById("demo");
-    function getLocation(){
+	
+    document.getElementById('getLocation').addEventListener('click', function () {  
         if (navigator.geolocation){
             navigator.geolocation.getCurrentPosition(showPosition,showError);
         }else{
             x.innerHTML="此浏览器不支持地理位置.";
         }
-    }
+     })
 	
 	function showError(error){ 
 		switch(error.code) { 
