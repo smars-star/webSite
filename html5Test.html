@@ -8,6 +8,7 @@
 </head>
 <body>
 
+  
   <video id="video" width="480" height="320" autoplay playsinline>
   </video>
   <div>
@@ -17,12 +18,15 @@
   <canvas id="canvas" width="480" height="320"></canvas>
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>	
   <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
     	  
     //访问用户媒体设备的兼容方法
     function getUserMedia(constraints, success, error) {
       if (navigator.mediaDevices.getUserMedia) {
         //最新的标准API
-        await navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+        navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
       } else if (navigator.webkitGetUserMedia) {
         //webkit核心浏览器
         navigator.webkitGetUserMedia(constraints,success, error)
@@ -35,9 +39,7 @@
       }
     }
 
-    let video = document.getElementById('video');
-    let canvas = document.getElementById('canvas');
-    let context = canvas.getContext('2d');
+ 
 
     function success(stream) {
       //兼容webkit核心浏览器
@@ -46,6 +48,7 @@
       //console.log(stream);
       //document.getElementById("showMessInfoID").innerHTML= stream;	
       //video.src = CompatibleURL.createObjectURL(stream);
+	  window.stream = stream; // only to make stream available to console
       video.srcObject = stream;
       //video.play();
 
@@ -70,7 +73,7 @@
 	//var constraints = { audio: true, video: { width: 480, height: 320 ,facingMode: { exact: "environment" }}};
 	//var constraints = { video: true, audio: false };
 	//var constraints = { audio: true ,video : {width: 480, height: 320,facingMode: { 'facingMode': "user" }}};
-	var constraints = window.constraints = { video: {  width: 480, height: 320 ,facingMode: 'user' } , audio: false};
+	var constraints = { video: {  width: 480, height: 320 ,facingMode: 'user' } , audio: false};
 	getUserMedia(constraints, success, error);
    } else {
 	alert('你的浏览器不支持访问用户媒体设备');
@@ -80,50 +83,6 @@
             context.drawImage(video, 0, 0, 480, 320);      
     })
   </script>
-
-  
-<p id="demo">点击这个按钮，获得您的坐标：</p>
-<button onclick="getLocation()">试一下</button>
-<!-- <div id="mapholder">地图图片</div>-->
-<script>
-    var x=document.getElementById("demo");
-    function getLocation(){
-        if (navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(showPosition,showError);
-        }else{
-            x.innerHTML="此浏览器不支持地理位置.";
-        }
-    }
-	
-	function showError(error){ 
-		switch(error.code) { 
-			case error.PERMISSION_DENIED: 
-				x.innerHTML = "定位失败,用户拒绝请求地理定位"; 
-				break; 
-			case error.POSITION_UNAVAILABLE: 
-				x.innerHTML = "定位失败,位置信息是不可用"; 
-				break; 
-			case error.TIMEOUT: 
-				x.innerHTML = "定位失败,请求获取用户位置超时"; 
-				break; 
-			case error.UNKNOWN_ERROR: 
-				x.innerHTML = "定位失败,定位系统失效"; 
-				break; 
-		} 
-	}
-
-    function showPosition(position){
-	    //维度
-	    var latitude = position.coords.latitude;
-		//精度
-		var longitude = position.coords.longitude;
-		x.innerHTML="Latitude: " + latitude + "<br />Longitude: " + longitude;
-		
-		var latlon=latitude+","+longitude;
-		//var img_url="http://apis.map.qq.com/uri/v1/marker?marker=coord:"+latlon+";title:当前地点位置经纬度;addr:维度："+latitude+"<br>精度："+longitude+"&referer=myapp";
-		//document.getElementById("mapholder").innerHTML="<img src='"+img_url+"' />";
-    }
- </script>
 
 
 </body>
