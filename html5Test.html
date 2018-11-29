@@ -58,9 +58,9 @@
 	if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
 		//调用用户媒体设备, 访问摄像头 ；facingMode: { 'facingMode': "user" }(前置摄像头)、{ facingMode: { exact: "environment" } }后置摄像头：
 		//getUserMedia({video : {width: 480, height: 320}}, success, error);
-		//var constraints = { audio: true, video: { width: 480, height: 320 ,facingMode: { exact: "environment" }}};
+		var constraints = { audio: true, video: { width: 480, height: 320 ,facingMode: { exact: "environment" }}};
 		//var constraints = { video: true, audio: false };
-		var constraints = { audio: true ,video : {width: 480, height: 320}};
+		//var constraints = { audio: true ,video : {width: 480, height: 320}};
 		getUserMedia(constraints, success, error);
 	} else {
 		alert('你的浏览器不支持访问用户媒体设备');
