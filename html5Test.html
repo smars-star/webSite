@@ -24,6 +24,24 @@
 var video = document.querySelector('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
+	
+	
+   //访问用户媒体设备的兼容方法
+    function getUserMedia(constraints, success, error) {
+      if (navigator.mediaDevices.getUserMedia) {
+        //最新的标准API
+        navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+      } else if (navigator.webkitGetUserMedia) {
+        //webkit核心浏览器
+        navigator.webkitGetUserMedia(constraints,success, error)
+      } else if (navigator.mozGetUserMedia) {
+        //firfox浏览器
+        navigator.mozGetUserMedia(constraints, success, error);
+      } else if (navigator.getUserMedia) {
+        //旧版API
+        navigator.getUserMedia(constraints, success, error);
+      }
+    }
 
 function handleSuccess(stream) {
   window.stream = stream; // only to make stream available to console
@@ -31,13 +49,13 @@ function handleSuccess(stream) {
 }
 
 function handleError(error) {
-  console.log('getUserMedia error: ', error);
+  document.getElementById("showErrorMessInfoID").innerHTML= "访问用户媒体设备失败：" + error.name +", "+ error.message);
 }
 
 	if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
 		
-navigator.mediaDevices.getUserMedia(constraints).
-  then(handleSuccess).catch(handleError);
+            //navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
+	    getUserMedia(constraints, success, error);
 		
 	}else{
 	 alert('你的浏览器不支持访问用户媒体设备');
