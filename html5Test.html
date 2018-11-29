@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <video id="video" width="480" height="320">
+  <video id="video" width="480" height="320" autoplay playsinline>
   </video>
   <div>
     <button id="capture">拍照</button>
@@ -46,9 +46,10 @@
       //console.log(stream);
       //document.getElementById("showMessInfoID").innerHTML= stream;	
       //video.src = CompatibleURL.createObjectURL(stream);
-      //video.srcObject = stream;
+      video.srcObject = stream;
       //video.play();
-	    
+
+	     /*
      // 旧的浏览器可能没有srcObject
      if ("srcObject" in video) {
 	     video.srcObject = stream;
@@ -56,7 +57,7 @@
 	     // 防止再新的浏览器里使用它，应为它已经不再支持了
 	    video.src = compatibleURL.createObjectURL(stream);
      }	  
-      video.play();
+     video.play(); */
     }
 
     function error(error) {
