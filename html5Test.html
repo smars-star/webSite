@@ -12,8 +12,9 @@
 
 <div>
     <button id="capture">拍照</button>
-    <p id="showErrorMessInfoID"></p>
  </div>
+<div id="errorMsg"></div>
+	
 <canvas id="canvas" width="480" height="320"></canvas>
 	 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>	
 <script>
@@ -49,7 +50,7 @@ function handleSuccess(stream) {
 }
 
 function handleError(error) {
-  document.getElementById("showErrorMessInfoID").innerHTML= "访问用户媒体设备失败：" + error.name +", "+ error.message);
+  document.getElementById("errorMsg").innerHTML = "访问用户媒体设备失败：" + error.name +", "+ error.message);
 }
 
 	if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
