@@ -66,7 +66,49 @@ function handleError(error) {
             context.drawImage(video, 0, 0, 480, 320);      
     })
 	</script>
+<hr>
+	
+<p id="demo">点击这个按钮，获得您的坐标：</p>
+<button onclick="getLocation()">试一下</button>
+<!-- <div id="mapholder">地图图片</div>-->
+<script>
+    var x=document.getElementById("demo");
+    function getLocation(){
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition,showError);
+        }else{
+            x.innerHTML="此浏览器不支持地理位置.";
+        }
+    }
+	
+	function showError(error){ 
+		switch(error.code) { 
+			case error.PERMISSION_DENIED: 
+				x.innerHTML = "定位失败,用户拒绝请求地理定位"; 
+				break; 
+			case error.POSITION_UNAVAILABLE: 
+				x.innerHTML = "定位失败,位置信息是不可用"; 
+				break; 
+			case error.TIMEOUT: 
+				x.innerHTML = "定位失败,请求获取用户位置超时"; 
+				break; 
+			case error.UNKNOWN_ERROR: 
+				x.innerHTML = "定位失败,定位系统失效"; 
+				break; 
+		} 
+	}
 
+    function showPosition(position){
+	    //维度
+	    var latitude = position.coords.latitude;
+		//精度
+		var longitude = position.coords.longitude;
+		x.innerHTML="Latitude: " + latitude + "<br />Longitude: " + longitude;
+		
+		var latlon=latitude+","+longitude;
+		//var img_url="http://apis.map.qq.com/uri/v1/marker?marker=coord:"+latlon+";title:当前地点位置经纬度;addr:维度："+latitude+"<br>精度："+longitude+"&referer=myapp";
+		//document.getElementById("mapholder").innerHTML="<img src='"+img_url+"' />";
+    }
 
 </body>
 </html>
