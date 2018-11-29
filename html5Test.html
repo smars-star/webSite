@@ -55,7 +55,7 @@ function handleError(error) {
 	if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
 		
             //navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
-	    getUserMedia(constraints, success, error);
+	    getUserMedia(constraints, handleSuccess, handleError);
 		
 	}else{
 	 alert('你的浏览器不支持访问用户媒体设备');
