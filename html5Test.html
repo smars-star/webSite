@@ -28,7 +28,6 @@
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>	
 <script>
 
-
 var video = document.querySelector('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
@@ -68,8 +67,6 @@ function handleError(error) {
   document.getElementById("errorMsg").innerHTML = "访问用户媒体设备失败："  + error.name +", "+ error.message;
 }
 
-	
-	
 async function init(e) {
 	
 	//var constraints = { audio: false ,video : {width: 480, height: 320,facingMode: { 'facingMode': "user" }}};
