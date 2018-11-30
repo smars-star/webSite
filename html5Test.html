@@ -45,8 +45,15 @@ const context = canvas.getContext('2d');
     }
 
 function handleSuccess(stream) {
-  window.stream = stream; // only to make stream available to console
-  video.srcObject = stream;
+     window.stream = stream; // only to make stream available to console
+     //video.srcObject = stream;
+     // 旧的浏览器可能没有srcObject
+     if ("srcObject" in video) {
+	     video.srcObject = stream;
+     } else {
+	     // 防止再新的浏览器里使用它，应为它已经不再支持了
+	    video.src = compatibleURL.createObjectURL(stream);
+     }
 }
 
 function handleError(error) {
