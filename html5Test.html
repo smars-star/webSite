@@ -21,6 +21,7 @@
 <div>
     <button id="showVideo">打开摄像头</button>
     <button id="capture">拍照</button>
+    <input type="file" name="" id="pz_ipt" accept="image/*" capture="camera">
  </div>
 <div id="errorMsg"></div>
 	
@@ -139,6 +140,6 @@ document.querySelector('#showVideo').addEventListener('click', e => init(e));
             x.innerHTML="此浏览器不支持地理位置.";
         }
      })
-	</script>
+   </script>
 </body>
 </html>
