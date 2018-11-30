@@ -11,6 +11,7 @@
     <video id="video" width="480" height="320" autoplay playsinline></video>
 
 <div>
+    <button id="showVideo">Open camera</button>
     <button id="capture">拍照</button>
  </div>
 <div id="errorMsg"></div>
@@ -61,20 +62,31 @@ function handleError(error) {
   document.getElementById("errorMsg").innerHTML = "访问用户媒体设备失败："  + error.name +", "+ error.message;
 }
 
-	if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
-		
+	
+	
+async function init(e) {
+  try {
+    if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
             //navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
 	    getUserMedia(constraints, handleSuccess, handleError);
-		
-	}else{
-	 alert('你的浏览器不支持访问用户媒体设备');
-	}
+	    e.target.disabled = true;
+    }else{
+	    alert('你的浏览器不支持访问用户媒体设备');
+    }
+   
+  } catch (e) {
+    handleError(e);
+  }
+}
+
+document.querySelector('#showVideo').addEventListener('click', e => init(e));
 	
-	 document.getElementById('capture').addEventListener('click', function () {
+    document.getElementById('capture').addEventListener('click', function () {
             context.drawImage(video, 0, 0, 480, 320);      
     })
-	</script>
-<hr>
+</script>
+	
+<hr>	
 	
 <p id="demo">点击这个按钮，获得您的坐标：</p>
 <button id="getLocation">试一下</button>
