@@ -27,9 +27,8 @@
 <canvas id="canvas" width="480" height="320"></canvas>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>	
 <script>
-	var constraints = {
-         video: true
-        };
+var constraints = { audio: false ,video : {width: 480, height: 320,facingMode: { 'facingMode': "user" }}};
+//var constraints = {video: true};
 
 var video = document.querySelector('video');
 const canvas = document.getElementById('canvas');
