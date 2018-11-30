@@ -11,13 +11,13 @@
     <video id="video" width="480" height="320" autoplay playsinline></video>
 
 <div>
-    <button id="showVideo">Open camera</button>
+    <button id="showVideo">打开摄像头</button>
     <button id="capture">拍照</button>
  </div>
 <div id="errorMsg"></div>
 	
 <canvas id="canvas" width="480" height="320"></canvas>
-	 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>	
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>	
 <script>
 	var constraints = {
          video: true
@@ -50,7 +50,7 @@ function handleSuccess(stream) {
      //video.srcObject = stream;
      // 旧的浏览器可能没有srcObject
      if ("srcObject" in video) {
-	     video.srcObject = stream;
+	    video.srcObject = stream;
      } else {
 	     // 防止再新的浏览器里使用它，应为它已经不再支持了
 	    video.src = compatibleURL.createObjectURL(stream);
