@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <video id="video" width="480" height="320" 
+    <video id="video" width="480" height="320" controls
 	   preload="auto"  
 	   playsinline="true" //IOS微信浏览器支持小窗内播放 
 	   x-webkit-airplay="allow"
@@ -27,9 +27,7 @@
 <canvas id="canvas" width="480" height="320"></canvas>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>	
 <script>
-//var constraints = { audio: false ,video : {width: 480, height: 320,facingMode: { 'facingMode': "user" }}};
-//var constraints = {video: true};
-var constraints = {video:{width: 480, height: 320}};
+
 
 var video = document.querySelector('video');
 const canvas = document.getElementById('canvas');
@@ -73,6 +71,11 @@ function handleError(error) {
 	
 	
 async function init(e) {
+	
+	//var constraints = { audio: false ,video : {width: 480, height: 320,facingMode: { 'facingMode': "user" }}};
+        //var constraints = {video: true};
+        //var constraints = {video:{width: 480, height: 320}};
+	var constraints = { audio: false ,video: true};
   try {
     if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
             //navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
