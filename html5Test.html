@@ -9,10 +9,12 @@
 <body>
 
     <video id="video" width="480" height="320" 
-	   playsinline="true" 
-	   x-webkit-airplay="true" 
+	   preload="auto"  
+	   playsinline="true" //IOS微信浏览器支持小窗内播放 
+	   x-webkit-airplay="allow"
 	   webkit-playsinline="true" 
-	   x5-video-player-type="h5">
+	   x5-video-player-type="h5" //启用H5播放器,是wechat安卓版特性
+	   >
 	    你的浏览器不支持视频播放！
     </video>
 
